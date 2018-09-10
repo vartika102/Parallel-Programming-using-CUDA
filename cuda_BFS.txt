@@ -1,0 +1,12 @@
+Explanation:
+•	Initially, all the reqiured variables on host and device are declared.Then, the total no. of vertices are taken as input.
+•	 The vertices and their connections are taken as input and simultaneously entered into an n*n matrix where each element is either ‘1’ or ‘0’ depending on the presence of the connection between their corresponding row and column, i.e. ‘1’ if row and column are connected and ‘0’ if row and column are not connected.
+•	 Then, the vertex from where to the start the search is taken as input. All the variables are allocated memory on host and Device respectively followed by the initialisation of the ‘vis’ and ‘depth’ for each vertex with ‘0’ and ‘-1’ respectively.
+•	 Then, the array is copied from Host to Device.
+•	At the kernel launch, all the required variables on device are passed as arguments to the kernel. During the kernel launch, n blocks and n threads in each block are alloted where each thread represents one element from the input array i.e. absence or presence of a particular connection between any 2 vertices.
+•	Inside the Kernel, the weight and depth of the starting vertex and the maximum depth are initialised to 0. 
+•	Then a while loop run for each thread containing ‘__syncthreads()’ function which waits till the depth of all the vertices are assigned along with the calculation of the maximum depth and the weight of each vertex and marking the vertices as visited. 
+•	Then another for loop runs to update the weights of some specific vertices which are connected to more than 1 parents so as to consider the connection with the parent with lower value. 
+•	Then, all the vertices are arranged in ascending order of their weights and stored in the ‘dvis’ vector.
+•	Back in the main function, all the variables after having been modified in the Kernel, are copied back from the Device to the Host and the Result is displayed.
+•	 At the end, all the memory is freed.
